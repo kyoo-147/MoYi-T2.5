@@ -204,6 +204,12 @@ Future versions can add classifier-based safety checks while keeping the same co
 6. Add VN-KR and VN-CN model/glossary packs.
 7. Explore TFLite, QNN, and llama.cpp/ggml runtime adapters.
 
+Detailed planning docs:
+
+- `docs/NEXT_PHASE_BRIEF.md`
+- `docs/TECHNICAL_ROADMAP.md`
+- `docs/superpowers/plans/2026-06-24-next-foundation-hardening.md`
+
 ## License
 
 No license has been selected yet.
