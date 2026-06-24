@@ -1,0 +1,14 @@
+id: vi-ko-translation-small
+task: translation
+runtime: onnx
+language_pair: vi-ko
+model_path: assets/models/vi-ko/model.onnx
+tokenizer_path: assets/models/vi-ko/tokenizer.json
+quantization: int8
+device_targets:
+  - desktop_cpu
+  - android_cpu
+  - edge_box_cpu
+latency_budget_ms: 1000
+memory_budget_mb: 512
+status: placeholder

@@ -1,0 +1,11 @@
+{
+  "mode": "benchmark",
+  "runtime": "mock",
+  "language_pair": "vi-en",
+  "samples": 3,
+  "elapsed_ms": 0.0,
+  "avg_ms": 0.0,
+  "safety_flags": 0,
+  "learning_cards": 0,
+  "notes": "Template only. Generate a real baseline with: moyi --bench-samples assets/samples/factory_utterances_vi.txt"
+}

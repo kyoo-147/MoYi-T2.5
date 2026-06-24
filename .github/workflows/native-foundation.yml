@@ -1,0 +1,24 @@
+name: Native Foundation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - name: Configure
+        run: cmake -S . -B build/default -DMOYI_BUILD_TESTS=ON -DMOYI_BUILD_CLI=ON -DMOYI_BUILD_C_API=ON
+      - name: Build
+        run: cmake --build build/default --parallel
+      - name: Test
+        run: ctest --test-dir build/default --output-on-failure
+      - name: CLI smoke
+        run: ./build/default/moyi --text "Dung may lai, kiem tra cam bien an toan." --pair vi-en
+      - name: Benchmark smoke
+        run: ./build/default/moyi --bench-samples assets/samples/factory_utterances_vi.txt

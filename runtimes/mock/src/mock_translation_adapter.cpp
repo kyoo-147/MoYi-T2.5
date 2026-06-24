@@ -40,6 +40,10 @@ Result<Translation> MockTranslationAdapter::translate(const std::string& source_
     if (!contains(source_text, "dung") && !contains(source_text, "dừng")) {
       translated = "When does this machine need maintenance?";
     }
+  } else if (pair.source == Language::Vietnamese && pair.target == Language::Korean) {
+    translated = "기계를 멈추고 안전 센서를 확인하세요.";
+  } else if (pair.source == Language::Vietnamese && pair.target == Language::Chinese) {
+    translated = "停止机器并检查安全传感器。";
   }
 
   for (const auto& term : context.glossary_terms) {

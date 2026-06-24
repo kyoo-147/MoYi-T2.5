@@ -1,5 +1,6 @@
-#include "moyi_jni.h"
+#include "moyi_c_api.h"
 
+#include <cstring>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -24,6 +25,8 @@ std::string json_escape(const std::string& value) {
       escaped += "\\\\";
     } else if (ch == '"') {
       escaped += "\\\"";
+    } else if (ch == '\n') {
+      escaped += "\\n";
     } else {
       escaped += ch;
     }
@@ -49,14 +52,14 @@ std::shared_ptr<moyi::TranslationSession> make_session() {
   auto asr = std::make_shared<moyi::runtimes::mock::MockASRAdapter>();
   auto translator = std::make_shared<moyi::runtimes::mock::MockTranslationAdapter>();
   moyi::ModelManifest manifest;
-  manifest.id = "android-mock-vi-en";
+  manifest.id = "mock-vi-en";
   manifest.language_pair = {moyi::Language::Vietnamese, moyi::Language::English};
   asr->load(manifest);
   translator->load(manifest);
 
   return std::make_shared<moyi::TranslationSession>(
       moyi::TranslationSessionConfig{
-          .session_id = "android-native",
+          .session_id = "native-python",
           .default_language_pair = {moyi::Language::Vietnamese, moyi::Language::English},
           .default_profile_id = "factory_worker",
       },
@@ -73,6 +76,7 @@ std::string to_json(const moyi::TranslationResult& result) {
   out << "\"language_pair\":\"" << result.language_pair.code() << "\",";
   out << "\"source_text\":\"" << json_escape(result.source_text) << "\",";
   out << "\"translated_text\":\"" << json_escape(result.translated_text) << "\",";
+  out << "\"overall_confidence\":" << result.confidence.overall << ",";
   out << "\"safety\":{\"flagged\":" << (result.safety.flagged ? "true" : "false")
       << ",\"severity\":\"" << moyi::to_string(result.safety.severity)
       << "\",\"requires_confirmation\":" << (result.safety.requires_confirmation ? "true" : "false")
@@ -81,39 +85,38 @@ std::string to_json(const moyi::TranslationResult& result) {
   return out.str();
 }
 
-}  // namespace
-
-JNIEXPORT jlong JNICALL
-Java_ai_moyi_edge_MoYiNative_createSession(JNIEnv*, jobject) {
-  auto* native = new NativeSession{.session = make_session()};
-  return reinterpret_cast<jlong>(native);
+char* copy_string(const std::string& value) {
+  auto* out = new char[value.size() + 1];
+  std::memcpy(out, value.c_str(), value.size() + 1);
+  return out;
 }
 
-JNIEXPORT jstring JNICALL
-Java_ai_moyi_edge_MoYiNative_processText(JNIEnv* env, jobject, jlong handle, jstring text) {
-  if (handle == 0 || text == nullptr) {
-    return env->NewStringUTF("{\"error\":\"invalid_session_or_text\"}");
+}  // namespace
+
+moyi_session_handle moyi_create_default_session(void) {
+  return new NativeSession{.session = make_session()};
+}
+
+const char* moyi_process_text(moyi_session_handle handle, const char* text) {
+  if (handle == nullptr || text == nullptr) {
+    return copy_string("{\"error\":\"invalid_handle_or_text\"}");
   }
-
-  const char* raw = env->GetStringUTFChars(text, nullptr);
-  std::string source = raw == nullptr ? "" : raw;
-  env->ReleaseStringUTFChars(text, raw);
-
-  auto* native = reinterpret_cast<NativeSession*>(handle);
+  auto* native = static_cast<NativeSession*>(handle);
   auto result = native->session->process_once({
-      .text = source,
+      .text = std::string(text),
       .language_pair = {moyi::Language::Vietnamese, moyi::Language::English},
       .profile_id = "factory_worker",
   });
-
   if (!result.is_ok()) {
-    return env->NewStringUTF(("{\"error\":\"" + json_escape(result.error().message) + "\"}").c_str());
+    return copy_string("{\"error\":\"" + json_escape(result.error().message) + "\"}");
   }
-  return env->NewStringUTF(to_json(result.value()).c_str());
+  return copy_string(to_json(result.value()));
 }
 
-JNIEXPORT void JNICALL
-Java_ai_moyi_edge_MoYiNative_destroySession(JNIEnv*, jobject, jlong handle) {
-  auto* session = reinterpret_cast<NativeSession*>(handle);
-  delete session;
+void moyi_free_string(const char* value) {
+  delete[] value;
+}
+
+void moyi_destroy_session(moyi_session_handle handle) {
+  delete static_cast<NativeSession*>(handle);
 }

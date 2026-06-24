@@ -8,16 +8,19 @@ Delivered:
 
 - C++ core contracts
 - mock runtime
-- ONNX boundary
+- ONNX boundary with optional ONNX Runtime model-loading path
 - Python SDK mirror
+- C ABI bridge and Python native mode
 - native CLI skeleton
-- Android JNI placeholder
-- sample VN-EN assets
+- Android JNI native session bridge
+- sample VN-EN, VN-KR, and VN-CN assets
 - architecture docs
 
 ## Phase 1 - Verified Native Foundation
 
 Goal: make the current C++ foundation buildable, testable, and deterministic.
+
+Status: implemented as code and CI skeleton; full local verification remains the next operational step.
 
 Deliverables:
 
@@ -47,9 +50,9 @@ Goal: move from hard-coded context to file-driven packs.
 
 Deliverables:
 
-- C++ asset loader for glossary JSON.
-- C++ asset loader for safety-rule JSON.
-- C++ model manifest loader.
+- C++ asset loader for glossary JSON. Implemented.
+- C++ asset loader for safety-rule JSON. Implemented.
+- C++ model manifest loader. Implemented.
 - CLI accepts:
   - `--glossary assets/glossary/factory_vi_en.json`
   - `--safety assets/safety/factory_rules_vi_en.json`
@@ -90,6 +93,8 @@ moyi bench --samples assets/samples/factory_utterances_vi.txt --out docs/benchma
 
 Goal: stop Python from being a separate implementation.
 
+Status: first C ABI + `ctypes` bridge implemented.
+
 Deliverables:
 
 - Use `pybind11` or a small C ABI wrapper.
@@ -108,6 +113,8 @@ This must execute the native session.
 ## Phase 5 - Real Local Model Path
 
 Goal: prove edge AI path with at least one real local model component.
+
+Status: optional ONNX Runtime model-loading path implemented; tokenizer and tensor I/O remain.
 
 Deliverables:
 

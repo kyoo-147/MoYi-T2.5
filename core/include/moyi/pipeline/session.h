@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "moyi/context/context_retriever.h"
 #include "moyi/learning/learning_memory.h"
@@ -50,6 +51,7 @@ class TranslationSession final {
                      std::shared_ptr<ILearningMemory> learning);
 
   void set_event_handler(SessionEventHandler handler);
+  std::vector<SessionEvent> drain_events();
   Result<TranslationResult> process_once(const UtteranceInput& input);
   Result<void> push_audio(const AudioChunk& chunk);
   Result<void> finish_stream();
@@ -66,6 +68,7 @@ class TranslationSession final {
   std::shared_ptr<ISafetyChecker> safety_;
   std::shared_ptr<ILearningMemory> learning_;
   SessionEventHandler handler_;
+  mutable std::vector<SessionEvent> event_history_;
 };
 
 }  // namespace moyi

@@ -1,0 +1,18 @@
+{
+  "id": "factory-safety-vi-ko",
+  "language_pair": "vi-ko",
+  "rules": [
+    {
+      "keyword": "dung may",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    },
+    {
+      "keyword": "기계를 멈추세요",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    }
+  ]
+}

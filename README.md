@@ -29,9 +29,10 @@ The current MVP codebase focuses on the runtime foundation:
 - mock runtime for deterministic local development
 - ONNX runtime boundary for future local model inference
 - Python SDK mirror for scripting and benchmarks
+- native C ABI bridge for Python and other clients
 - native CLI acceptance demo
-- Android JNI skeleton for future mobile integration
-- VN-EN sample assets for factory/workplace scenarios
+- Android JNI session bridge for future mobile integration
+- VN-EN, VN-KR, and VN-CN sample assets for factory/workplace scenarios
 
 The first demo language pair is **Vietnamese-English (`vi-en`)**, while the architecture is designed for future VN-KR and VN-CN support.
 
@@ -96,29 +97,33 @@ tools/                Model conversion and benchmark helper scripts
 
 ## Current Status
 
-This repository is an MVP foundation/prototype. It includes real runtime contracts and local deterministic adapters, but production model inference is not yet wired.
+This repository is an MVP foundation/prototype. It includes real runtime contracts, local deterministic adapters, native bridge surfaces, asset loaders, and an optional ONNX Runtime model-loading path. Production tokenizer/tensor I/O for real translation models is still a roadmap item.
 
 Implemented:
 
 - C++ core contracts and orchestration
+- CMake/CTest build structure
 - local context retrieval
+- C++ asset loaders for glossary, safety rules, and model manifests
 - rule-based safety checker
 - simple learning card extraction
 - mock ASR and translation adapters
-- ONNX adapter stubs
+- ONNX Runtime optional model-loading path
 - Python SDK mirror
+- Python native mode through `moyi_c_api`
 - CLI demo surface
-- Android JNI placeholder boundary
-- sample VN-EN factory glossary and safety packs
+- CLI benchmark JSON output
+- Android JNI native session boundary
+- sample VN-EN, VN-KR, and VN-CN factory glossary/safety/model packs
 
 Not yet implemented:
 
-- production ONNX Runtime inference
-- model conversion scripts
-- real microphone streaming integration
+- ONNX tokenizer and tensor I/O for production inference
+- model conversion scripts for real artifacts
+- full microphone streaming integration
 - native Android app UI
 - wearable-specific deployment package
-- full automated test/build verification
+- full production QA across all target devices
 
 ## Build Skeleton
 
@@ -127,6 +132,7 @@ The project uses CMake.
 ```powershell
 cmake --preset default
 cmake --build --preset default
+ctest --test-dir build/default --output-on-failure
 ```
 
 The native CLI target is named:
@@ -141,6 +147,22 @@ Example intended usage:
 moyi --text "Dung may lai, kiem tra cam bien an toan." --pair vi-en
 ```
 
+Asset-driven demo:
+
+```powershell
+moyi --text "Dung may lai, kiem tra cam bien an toan." `
+  --pair vi-en `
+  --glossary assets/glossary/factory_vi_en.json `
+  --safety assets/safety/factory_rules_vi_en.json `
+  --manifest assets/models/vi-en/manifest.yaml
+```
+
+Benchmark JSON output:
+
+```powershell
+moyi --bench-samples assets/samples/factory_utterances_vi.txt
+```
+
 ## Python SDK Skeleton
 
 The Python helper package lives in `bindings/python`.
@@ -151,6 +173,14 @@ Example intended usage:
 cd bindings/python
 python -m moyi_edge.cli --text "Dung may lai, kiem tra cam bien an toan."
 ```
+
+Native C++ runtime through the C ABI bridge:
+
+```powershell
+python -m moyi_edge.cli --native --text "Dung may lai, kiem tra cam bien an toan."
+```
+
+If the native library is not discovered under `build/**`, set `MOYI_C_API_LIBRARY`.
 
 Python output follows the same result contract as the C++ runtime:
 
@@ -168,8 +198,14 @@ Python output follows the same result contract as the C++ runtime:
 Included MVP assets:
 
 - `assets/models/vi-en/manifest.yaml`
+- `assets/models/vi-ko/manifest.yaml`
+- `assets/models/vi-zh/manifest.yaml`
 - `assets/glossary/factory_vi_en.json`
+- `assets/glossary/factory_vi_ko.json`
+- `assets/glossary/factory_vi_zh.json`
 - `assets/safety/factory_rules_vi_en.json`
+- `assets/safety/factory_rules_vi_ko.json`
+- `assets/safety/factory_rules_vi_zh.json`
 - `assets/samples/factory_utterances_vi.txt`
 
 Large model artifacts are intentionally not committed. The manifest documents the expected path and deployment budget for future ONNX assets.
@@ -197,12 +233,11 @@ Future versions can add classifier-based safety checks while keeping the same co
 ## Roadmap
 
 1. Wire real ONNX Runtime inference for one VN-EN translation model.
-2. Add local ASR model support for Vietnamese.
-3. Add streaming microphone input and partial events.
-4. Add benchmark scripts for latency and memory budgets.
+2. Add tokenizer and tensor I/O for ONNX translation and ASR models.
+3. Add local ASR model support for Vietnamese.
+4. Add streaming microphone input and partial events.
 5. Add Android demo app using the JNI boundary.
-6. Add VN-KR and VN-CN model/glossary packs.
-7. Explore TFLite, QNN, and llama.cpp/ggml runtime adapters.
+6. Explore TFLite, QNN, and llama.cpp/ggml runtime adapters.
 
 Detailed planning docs:
 

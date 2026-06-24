@@ -9,7 +9,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "MOYI_BUILD_CLI": "ON",
-        "MOYI_BUILD_ONNX_RUNTIME": "ON"
+        "MOYI_BUILD_ONNX_RUNTIME": "ON",
+        "MOYI_BUILD_TESTS": "ON",
+        "MOYI_BUILD_C_API": "ON"
       }
     },
     {
@@ -20,7 +22,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "MOYI_BUILD_CLI": "ON",
-        "MOYI_BUILD_ONNX_RUNTIME": "ON"
+        "MOYI_BUILD_ONNX_RUNTIME": "ON",
+        "MOYI_BUILD_TESTS": "ON",
+        "MOYI_BUILD_C_API": "ON"
       }
     }
   ],

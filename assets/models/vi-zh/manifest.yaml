@@ -1,0 +1,14 @@
+id: vi-zh-translation-small
+task: translation
+runtime: onnx
+language_pair: vi-zh
+model_path: assets/models/vi-zh/model.onnx
+tokenizer_path: assets/models/vi-zh/tokenizer.json
+quantization: int8
+device_targets:
+  - desktop_cpu
+  - android_cpu
+  - edge_box_cpu
+latency_budget_ms: 1000
+memory_budget_mb: 512
+status: placeholder

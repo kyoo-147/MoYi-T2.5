@@ -21,6 +21,12 @@ void TranslationSession::set_event_handler(SessionEventHandler handler) {
   handler_ = std::move(handler);
 }
 
+std::vector<SessionEvent> TranslationSession::drain_events() {
+  auto events = event_history_;
+  event_history_.clear();
+  return events;
+}
+
 Result<TranslationResult> TranslationSession::process_once(const UtteranceInput& input) {
   auto transcript_result = resolve_transcript(input);
   if (!transcript_result.is_ok()) {
@@ -88,6 +94,12 @@ Result<void> TranslationSession::push_audio(const AudioChunk& chunk) {
   emit(SessionEventType::AudioChunkReceived, "audio chunk received");
   if (chunk.final_chunk) {
     emit(SessionEventType::SpeechDetected, "final audio chunk");
+    auto transcript = asr_->transcribe(chunk, config_.default_language_pair.source);
+    if (!transcript.is_ok()) {
+      emit(SessionEventType::ErrorRaised, transcript.error().message);
+      return Result<void>::error(transcript.error());
+    }
+    emit(SessionEventType::FinalTranscriptReady, transcript.value().text);
   }
   return Result<void>::ok();
 }
@@ -98,8 +110,10 @@ Result<void> TranslationSession::finish_stream() {
 }
 
 void TranslationSession::emit(SessionEventType type, std::string message) const {
+  SessionEvent event{.type = type, .message = std::move(message)};
+  event_history_.push_back(event);
   if (handler_) {
-    handler_(SessionEvent{.type = type, .message = std::move(message)});
+    handler_(event);
   }
 }
 

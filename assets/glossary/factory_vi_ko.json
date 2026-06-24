@@ -1,0 +1,22 @@
+{
+  "id": "factory-vi-ko",
+  "language_pair": "vi-ko",
+  "industry": "manufacturing",
+  "terms": [
+    {
+      "source": "cam bien an toan",
+      "target": "안전 센서",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "dung may",
+      "target": "기계를 멈추세요",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "bao tri",
+      "target": "유지보수",
+      "domain": "operations"
+    }
+  ]
+}

@@ -17,13 +17,15 @@ The repository already contains:
 - C++20 core contracts and pipeline skeleton
 - mock ASR and mock translation adapters
 - ONNX adapter boundary
+- optional ONNX Runtime model-loading path
 - local glossary/context retrieval
 - rule-based safety checker
 - simple learning-memory extraction
 - native CLI surface
 - Python SDK mirror
-- Android JNI placeholder boundary
-- VN-EN factory sample assets
+- C ABI bridge and Python native mode
+- Android JNI native session boundary
+- VN-EN, VN-KR, and VN-CN factory sample assets
 
 ## Strategic Gap
 

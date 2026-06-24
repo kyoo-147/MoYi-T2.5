@@ -1,0 +1,22 @@
+{
+  "id": "factory-vi-zh",
+  "language_pair": "vi-zh",
+  "industry": "manufacturing",
+  "terms": [
+    {
+      "source": "cam bien an toan",
+      "target": "安全传感器",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "dung may",
+      "target": "停止机器",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "bao tri",
+      "target": "维护",
+      "domain": "operations"
+    }
+  ]
+}

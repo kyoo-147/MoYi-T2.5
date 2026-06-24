@@ -1,0 +1,18 @@
+{
+  "id": "factory-safety-vi-zh",
+  "language_pair": "vi-zh",
+  "rules": [
+    {
+      "keyword": "dung may",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    },
+    {
+      "keyword": "停止机器",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    }
+  ]
+}

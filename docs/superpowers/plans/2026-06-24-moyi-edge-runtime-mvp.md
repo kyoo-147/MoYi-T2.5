@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the MVP code foundation for `github.com/kyoo-147/moyi-edge-translation`: an edge-first translation runtime with C++ core, adapter-neutral model interfaces, mock/ONNX runtime stubs, Python SDK, and CLI acceptance demo.
+**Goal:** Build the MVP code foundation for `github.com/kyoo-147/moyi-edge-translation`: an edge-first translation runtime with C++ core, adapter-neutral model interfaces, mock/ONNX runtime boundaries, Python SDK, and CLI acceptance demo.
 
 **Architecture:** The core is a C++ library exposing stable contracts for audio, ASR, translation, retrieval, safety, learning memory, and session orchestration. Runtime-specific code lives behind adapters, with mock and ONNX adapters first; Python and CLI are consumers rather than owners of the pipeline.
 
@@ -19,7 +19,7 @@
 - Create: `docs/superpowers/specs/2026-06-24-moyi-edge-runtime-design.md`
 
 - [x] Add project description, build layout, and MVP scope.
-- [x] Add top-level CMake targets for core, mock runtime, ONNX runtime stub, and CLI.
+- [x] Add top-level CMake targets for core, mock runtime, ONNX runtime boundary, and CLI.
 - [x] Document edge-first design decisions.
 
 ### Task 2: C++ Core Contracts
@@ -77,7 +77,7 @@
 - Create: `docs/architecture/**`
 
 - [x] Add sample glossary, safety rules, model manifest, and input text.
-- [x] Add Android JNI placeholder boundary.
+- [x] Add Android JNI boundary.
 - [x] Add benchmark/model conversion placeholders as real entry scripts.
 
 ### Note On Verification
