@@ -1,0 +1,17 @@
+build/
+dist/
+outputs/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+*.onnx
+*.bin
+*.gguf
+*.tflite
+*.qnn
+*.wav
+*.pcm
+*.log

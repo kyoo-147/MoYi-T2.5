@@ -1,0 +1,24 @@
+{
+  "id": "factory-safety-vi-en",
+  "language_pair": "vi-en",
+  "rules": [
+    {
+      "keyword": "dung may",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    },
+    {
+      "keyword": "stop the machine",
+      "severity": "critical",
+      "requires_confirmation": true,
+      "reason": "Contains stop-machine safety command"
+    },
+    {
+      "keyword": "cam bien an toan",
+      "severity": "warning",
+      "requires_confirmation": true,
+      "reason": "Mentions safety sensor"
+    }
+  ]
+}

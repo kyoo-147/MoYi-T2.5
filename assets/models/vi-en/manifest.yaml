@@ -1,0 +1,16 @@
+id: vi-en-translation-small
+task: translation
+runtime: onnx
+language_pair: vi-en
+model_path: assets/models/vi-en/model.onnx
+tokenizer_path: assets/models/vi-en/tokenizer.json
+quantization: int8
+device_targets:
+  - desktop_cpu
+  - android_cpu
+  - edge_box_cpu
+  - wearable_devkit_cpu
+latency_budget_ms: 800
+memory_budget_mb: 512
+status: placeholder
+notes: ONNX adapter boundary is present; model artifact is intentionally not committed.

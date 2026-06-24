@@ -1,0 +1,27 @@
+{
+  "id": "factory-vi-en",
+  "language_pair": "vi-en",
+  "industry": "manufacturing",
+  "terms": [
+    {
+      "source": "cam bien an toan",
+      "target": "safety sensor",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "dung may",
+      "target": "stop the machine",
+      "domain": "machine_safety"
+    },
+    {
+      "source": "bao tri",
+      "target": "maintenance",
+      "domain": "operations"
+    },
+    {
+      "source": "day chuyen",
+      "target": "production line",
+      "domain": "operations"
+    }
+  ]
+}

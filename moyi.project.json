@@ -1,0 +1,14 @@
+{
+  "name": "moyi-edge-translation",
+  "repository": "github.com/kyoo-147/moyi-edge-translation",
+  "version": "0.1.0",
+  "mvp": {
+    "strategy": "hybrid-edge-first-runtime-skeleton",
+    "core_language": "C++20",
+    "sdk_language": "Python 3",
+    "first_language_pair": "vi-en",
+    "runtime_policy": "adapter-neutral",
+    "first_runtimes": ["mock", "onnx"],
+    "device_targets": ["android_phone", "edge_box", "wearable_devkit"]
+  }
+}
