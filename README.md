@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="assets/moyi-logo-light.png#gh-light-mode-only" width="46%" alt="MoYi T2.5">
-  <img src="assets/moyi-logo.png#gh-dark-mode-only" width="46%" alt="MoYi T2.5">
+  <img src="assets/moyi-logo.png" width="46%" alt="MoYi T2.5">
 </div>
 
 <hr>
