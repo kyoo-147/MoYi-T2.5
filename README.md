@@ -1,197 +1,331 @@
-# MoYi Edge Translation
+<div align="center">
+  <img src="assets/moyi-logo-light.png#gh-light-mode-only" width="46%" alt="MoYi T2.5">
+  <img src="assets/moyi-logo.png#gh-dark-mode-only" width="46%" alt="MoYi T2.5">
+</div>
 
-> **Public-source note**
->
-> This public repository does not always reflect the newest private implementation of MoYi. Some source code, model work, demos, competition materials, and commercial details are intentionally not published yet because of competition, business, and partnership constraints.
+<hr>
 
-![MoYi Edge Translation Runtime](docs/images/moyi-banner.png)
+<div align="center" style="line-height: 1;">
+  <a href="https://github.com/kyoo-147/MoYi-T2.5" target="_blank"><img alt="Repository" src="https://img.shields.io/badge/Repository-MoYi--T2.5-111111?logo=github&logoColor=white"></a>
+  <a href="https://github.com/kyoo-147/MoYi-T2.5/actions/workflows/native-foundation.yml" target="_blank"><img alt="Native Foundation" src="https://github.com/kyoo-147/MoYi-T2.5/actions/workflows/native-foundation.yml/badge.svg"></a>
+  <img alt="Core" src="https://img.shields.io/badge/Core-C%2B%2B20-00599C?logo=cplusplus&logoColor=white">
+  <img alt="Edge First" src="https://img.shields.io/badge/Runtime-Edge--first-1783ff">
+</div>
 
-**MoYi - Personalized Edge AI Translation Companion** is an edge-first translation runtime for real-time, context-aware workplace communication.
+<div align="center" style="line-height: 1;">
+  <img alt="Android" src="https://img.shields.io/badge/Android-ARM64-3DDC84?logo=android&logoColor=white">
+  <img alt="ONNX Runtime" src="https://img.shields.io/badge/ONNX_Runtime-Adapter-005CED?logo=onnx&logoColor=white">
+  <img alt="Python" src="https://img.shields.io/badge/Python-SDK-3776AB?logo=python&logoColor=white">
+  <img alt="Language Pairs" src="https://img.shields.io/badge/Language_Packs-VI--EN_%7C_VI--ZH_%7C_VI--KO-f5de53">
+  <img alt="License" src="https://img.shields.io/badge/License-TBD-lightgrey">
+</div>
 
-MoYi is built for environments where translation is not just language conversion: factories, logistics operations, construction sites, hospitals, field-service teams, FDI companies, and remote teams that need fast multilingual coordination with safety and domain context.
+<p align="center">
+  🏠 <b>Homepage:</b> Coming soon &nbsp;|&nbsp;
+  🤗 <b>Model Hub:</b> Coming soon &nbsp;|&nbsp;
+  📄 <b>Technical Report:</b> Coming soon &nbsp;|&nbsp;
+  🎬 <b>Demo:</b> Coming soon &nbsp;|&nbsp;
+  💬 <b>Community:</b> Coming soon
+</p>
 
-The project is designed as a portable **edge translation runtime first**. Desktop tools, Python workflows, mobile apps, and embedded deployments are clients on top of the same core engine.
+> [!NOTE]
+> This public repository contains the open runtime foundation of MoYi T2.5. It does not necessarily include the newest private model experiments, competition materials, product demos, partner work, or commercial implementation details.
 
-Repository: `github.com/kyoo-147/moyi-edge-translation`
+<div align="center">
+  <img src="docs/images/moyi-banner.png" width="100%" alt="MoYi Edge Translation Runtime">
+</div>
 
-## Why MoYi Exists
+## 1. Project Introduction
 
-Generic translation apps usually translate isolated sentences. That is not enough in real workplaces.
+**MoYi T2.5** is a local-first, edge AI translation runtime for multilingual operational communication.
 
-In a factory, logistics site, or cross-border remote team, a translation system needs to understand:
+It is designed for environments where translation must do more than convert isolated sentences: factories, logistics operations, construction sites, hospitals, field-service teams, FDI companies, and distributed teams that need fast communication with domain terminology, safety context, and limited or restricted connectivity.
 
-- worker roles and communication level
-- company glossary and internal abbreviations
-- SOP phrases, safety commands, and domain-specific words
-- conversation context from the current task
-- phrases that must be confirmed before action
-- what should become vocabulary, flashcards, or reusable learning memory
+MoYi is built as a portable runtime rather than a single application. The same core is intended to support native CLI tools, Python workflows, Android clients, and future embedded or wearable deployments.
 
-MoYi focuses on this product wedge: **private, context-aware translation for operational work**, where mistranslation can slow down work, create rework, or increase safety risk.
+### Key Features
 
-## Current Product Direction
-
-MoYi is moving from runtime foundation toward field-test and pitch readiness.
-
-The current private direction includes:
-
-- local-first translation runtime for workplace and team communication
-- C++20 core that can be embedded into desktop, Python tooling, and mobile clients
-- adapter-ready inference boundary for ONNX Runtime and llama.cpp
-- workflow-aware translation using glossary, safety policy, and context retrieval
-- realtime meeting/workflow usage for internal remote collaboration
-- deployment evaluation across desktop, Android ARM, Raspberry Pi, embedded Linux, Qualcomm devices, and Intel edge devices
-
-This public repository contains the core foundation and a deterministic development path, while the newest competition/commercial implementation may remain private.
-
-## Visual Overview
+- **Edge-first architecture:** primary runtime boundaries are designed for local execution without requiring a cloud translation service.
+- **Context-aware translation:** glossary packs, recent operational context, and domain terms can be applied before output composition.
+- **Safety-first workflow:** deterministic local rules can flag critical phrases and require confirmation before an output is trusted.
+- **Adapter-neutral inference:** model execution is isolated behind ASR and translation adapter contracts instead of being tied to one provider.
+- **Portable native core:** C++20 orchestration is exposed through a CLI, C ABI, Python bridge, and Android JNI boundary.
+- **Asset-driven configuration:** language-pair manifests, glossary packs, safety rules, and samples live outside the core engine.
+- **Measurable by design:** the repository includes deterministic tests and benchmark contracts for future latency, memory, quality, and device evidence.
 
 ### User Flow
 
-![MoYi user flow](docs/images/moyi-user-flow.png)
+<div align="center">
+  <img src="docs/images/moyi-user-flow.png" width="92%" alt="MoYi user flow">
+</div>
 
-MoYi is designed around an operational loop:
+The operational loop remains visible across the runtime design:
 
-1. Capture meeting, chat, or workplace utterance.
-2. Detect language pair and task context.
-3. Retrieve glossary, SOP terms, safety rules, and recent conversation context.
-4. Run translation through a runtime adapter.
+1. Capture a meeting, chat, or workplace utterance.
+2. Detect the language pair and task context.
+3. Retrieve glossary terms, SOP context, safety rules, and recent conversation context.
+4. Run translation through the selected runtime adapter.
 5. Validate safety-sensitive phrases.
 6. Return translated output with confidence and confirmation signals.
 7. Extract reusable learning memory.
 
-### System Architecture
+## 2. Runtime Summary
 
-![MoYi system architecture](docs/images/moyi-system-architecture.png)
+<div align="center">
+<table>
+<tbody>
+<tr>
+<td align="center"><strong>Project</strong></td>
+<td align="center">MoYi T2.5</td>
+</tr>
+<tr>
+<td align="center"><strong>Project Type</strong></td>
+<td align="center">Local-first multilingual edge translation runtime</td>
+</tr>
+<tr>
+<td align="center"><strong>Public Core Version</strong></td>
+<td align="center">0.1.0</td>
+</tr>
+<tr>
+<td align="center"><strong>Core Language</strong></td>
+<td align="center">C++20</td>
+</tr>
+<tr>
+<td align="center"><strong>Public Interfaces</strong></td>
+<td align="center">Native CLI, C ABI, Python SDK, Android JNI boundary</td>
+</tr>
+<tr>
+<td align="center"><strong>Runtime Policy</strong></td>
+<td align="center">Adapter-neutral, edge-first</td>
+</tr>
+<tr>
+<td align="center"><strong>Current Runtime Adapters</strong></td>
+<td align="center">Deterministic mock, ONNX Runtime boundary</td>
+</tr>
+<tr>
+<td align="center"><strong>First Active Pair</strong></td>
+<td align="center">Vietnamese → English (<code>vi-en</code>)</td>
+</tr>
+<tr>
+<td align="center"><strong>Additional Public Asset Packs</strong></td>
+<td align="center"><code>vi-zh</code>, <code>vi-ko</code></td>
+</tr>
+<tr>
+<td align="center"><strong>Target Devices</strong></td>
+<td align="center">Android phones, desktop/edge boxes, embedded or wearable development kits</td>
+</tr>
+<tr>
+<td align="center"><strong>Public Model Weights</strong></td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center"><strong>License</strong></td>
+<td align="center">—</td>
+</tr>
+</tbody>
+</table>
+</div>
 
-The public runtime is split into four layers:
+The public repository is a runtime foundation, not a claim that production speech recognition, translation quality, or physical-device latency has already been completed.
 
-- **Client surfaces:** CLI, Python SDK, native bridge, mobile/JNI boundary, and future app surfaces.
-- **Core orchestration:** `TranslationSession`, language pair resolution, context retrieval, safety checking, output composition, and learning memory extraction.
-- **Runtime adapters:** deterministic mock adapter for development, ONNX Runtime boundary, and future runtime targets such as llama.cpp, TFLite, ExecuTorch, and QNN/NNAPI-backed paths.
-- **Local assets:** model manifests, glossary packs, safety rules, sample utterances, and future local model artifacts.
+## 3. System Architecture
+
+<div align="center">
+  <img src="docs/images/moyi-system-architecture.png" width="92%" alt="MoYi system architecture">
+</div>
+
+MoYi separates the product pipeline into four layers:
+
+1. **Client surfaces** — native CLI, Python SDK, C ABI consumers, Android JNI, and future product applications.
+2. **Core orchestration** — translation sessions, language-pair resolution, context retrieval, safety checks, output composition, and learning-memory extraction.
+3. **Runtime adapters** — deterministic development adapters, the ONNX Runtime boundary, and future device-specific execution providers.
+4. **Local assets** — model manifests, glossary packs, safety policies, and evaluation samples.
 
 ### Processing Pipeline
 
-![MoYi processing pipeline](docs/images/moyi-processing-pipeline.png)
-
-The translation pipeline is intentionally explicit so that each stage can be tested and benchmarked:
+<div align="center">
+  <img src="docs/images/moyi-processing-pipeline.png" width="92%" alt="MoYi processing pipeline">
+</div>
 
 ```text
-Audio/Text Input
-  -> Audio Frontend
-  -> ASR Adapter
-  -> Language Pair Resolver
-  -> Context Retriever
-  -> Translation Adapter
-  -> Safety Checker
-  -> Output Composer
-  -> Learning Memory Extractor
+Audio / Text Input
+        ↓
+Audio Frontend or Text Entry
+        ↓
+ASR Adapter
+        ↓
+Language Pair Resolver
+        ↓
+Context Retriever
+        ↓
+Translation Adapter
+        ↓
+Safety Checker
+        ↓
+Output Composer
+        ↓
+Learning Memory Extractor
 ```
+
+The explicit stages make it possible to test product logic with deterministic adapters today and replace model execution later without rewriting the session contract.
 
 ### Backend Runtime Boundary
 
-![MoYi backend architecture](docs/images/moyi-backend-architecture.png)
+<div align="center">
+  <img src="docs/images/moyi-backend-architecture.png" width="92%" alt="MoYi backend architecture">
+</div>
 
-The backend/runtime design keeps model execution behind adapter contracts. This lets the project develop and test the pipeline with deterministic adapters while keeping a path toward real local inference runtimes.
+The backend keeps model execution behind adapter contracts. The public foundation can therefore exercise the pipeline with deterministic adapters while retaining a controlled path toward real local inference runtimes.
 
-The current public repository includes:
+The current repository includes deterministic ASR and translation adapters for development, the ONNX Runtime adapter boundary, a C ABI bridge, a Python native mode, and an Android JNI session boundary.
 
-- deterministic local mock ASR and translation adapters for development and tests
-- ONNX Runtime adapter boundary and optional model-loading path
-- C ABI bridge for native integration
-- Python SDK mirror and native mode
-- Android JNI session boundary
-- asset loaders for glossary, safety rules, and model manifests
+### Public Component Status
 
-The adapter boundary is meant to prevent product logic from being locked to one model provider or one deployment device.
+| Component | Public status | Notes |
+| --- | --- | --- |
+| C++20 session orchestration | ✅ Implemented | Shared runtime foundation |
+| Glossary and safety asset loading | ✅ Implemented | JSON asset packs |
+| Deterministic ASR/translation adapters | ✅ Implemented | Development and tests only |
+| C ABI and Python native mode | ✅ Implemented | Shared result contract |
+| Android JNI session boundary | ✅ Implemented | Product app integration remains future work |
+| ONNX model loading boundary | 🟡 Partial | Tokenizer and production tensor I/O remain |
+| Real local translation model path | ⏳ Planned | Model artifacts are not included |
+| Realtime microphone streaming | ⏳ Planned | Streaming state/events remain future work |
+| Physical mobile performance evidence | — | Not published yet |
 
-## Edge Deployment Matrix
+## 4. Evaluation Results
 
-![MoYi edge deployment matrix](docs/images/moyi-deployment-matrix.png)
+MoYi will publish results only when each value is tied to an exact model, asset revision, runtime, build, device, and measurement protocol. Empty values below are intentional.
+
+<div align="center">
+<table>
+<thead>
+<tr>
+<th align="center">Category</th>
+<th align="center">Metric</th>
+<th align="center">MoYi T2.5</th>
+<th align="center">Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center" rowspan="4"><strong>Translation Quality</strong></td>
+<td align="center">BLEU</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">chrF++</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">COMET</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">Terminology / critical-token accuracy</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center" rowspan="3"><strong>Runtime</strong></td>
+<td align="center">p50 / p95 latency</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">Real-time factor</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">Peak RSS / package size</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center" rowspan="2"><strong>Reliability</strong></td>
+<td align="center">Safety-rule recall</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">Long-session stability</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center"><strong>Deployment</strong></td>
+<td align="center">Verified accelerator placement</td>
+<td align="center">—</td>
+<td align="center">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+> [!IMPORTANT]
+> Deterministic mock output, successful model loading, ONNX conversion, or session creation must not be reported as real translation quality or accelerator execution evidence.
+
+Benchmark contracts and the baseline template live under [`docs/benchmarks/`](docs/benchmarks/).
+
+## 5. Edge Optimization
+
+MoYi treats model quality and edge execution as separate evidence gates.
+
+```text
+Model checkpoint
+      ↓
+Exportable graph + tokenizer contract
+      ↓
+ONNX numerical and text parity
+      ↓
+Quantization and quality parity
+      ↓
+Portable CPU baseline
+      ↓
+Optional NNAPI / QNN / device acceleration
+      ↓
+Physical-device latency, memory, thermal, and stability evidence
+```
+
+### Planned Optimization Matrix
+
+| Area | Current public path | Future evidence |
+| --- | --- | --- |
+| Graph format | ONNX adapter boundary | Exact export and parity report |
+| Quantization | — | FP16 / INT8 quality and runtime comparison |
+| Android baseline | JNI + ONNX Runtime direction | ARM64 CPU and mobile package benchmark |
+| Generic acceleration | — | XNNPACK / NNAPI provider assignment |
+| Qualcomm acceleration | — | QNN/HTP graph-placement evidence |
+| Memory and thermal | — | Physical-device p50/p95, RSS, thermal, battery |
+
+A successful compile or session start is not enough to claim that a graph executed on an NPU. Provider and node assignment must be measured explicitly.
+
+## 6. Deployment
+
+<div align="center">
+  <img src="docs/images/moyi-deployment-matrix.png" width="92%" alt="MoYi deployment matrix">
+</div>
 
 | Device group | Runtime candidates | Evaluation focus |
 | --- | --- | --- |
-| Desktop x86 | ONNX Runtime, llama.cpp | Latency, SIMD, memory |
-| Android ARM | ONNX Runtime Mobile, TFLite, ExecuTorch | NNAPI, binary size, battery |
-| Raspberry Pi | TFLite, ONNX Runtime, llama.cpp | ARM NEON, thermal, RAM |
-| Embedded Linux | ONNX Runtime, ExecuTorch | Cross-compilation, memory |
-| Qualcomm devices | QNN/NNAPI-backed runtime | NPU delegation |
-| Intel Edge | OpenVINO or ONNX Runtime | INT8, CPU/NPU acceleration |
+| Desktop x86 | ONNX Runtime, future llama.cpp path | Latency, SIMD, memory |
+| Android ARM64 | ONNX Runtime Mobile, future device providers | Binary size, latency, RAM, battery |
+| Raspberry Pi / ARM edge box | ONNX Runtime or lightweight native runtimes | ARM NEON, thermal, RAM |
+| Embedded Linux | ONNX Runtime, future ExecuTorch path | Cross-compilation, footprint |
+| Qualcomm devices | NNAPI / future QNN path | Positive NPU delegation evidence |
+| Intel Edge | ONNX Runtime or future OpenVINO path | INT8 and CPU/NPU execution |
 
-ExecuTorch uses an export, compile/quantize/partition flow and runs models through a lightweight C++ runtime on device. ONNX Runtime Mobile also supports reducing model and runtime size for mobile deployment.
+The portable baseline remains more important than any single premium-device accelerator. Device-specific paths should be promoted only after they outperform the baseline with equivalent output quality.
 
-## Data And Asset Model
+## 7. Usage
 
-![MoYi data model](docs/images/moyi-data-model.png)
+### Build and Test
 
-MoYi keeps operational knowledge outside the core engine where possible:
-
-- model manifests describe language pairs and deployment budgets
-- glossary packs define company/domain-specific vocabulary
-- safety packs define critical phrases and confirmation requirements
-- sample utterances support deterministic testing and benchmarks
-- learning cards can be produced from translated work conversations
-
-Current sample packs cover:
-
-- Vietnamese-English (`vi-en`)
-- Vietnamese-Korean (`vi-ko`)
-- Vietnamese-Chinese (`vi-zh`)
-
-The first public demo pair is **Vietnamese-English (`vi-en`)**.
-
-## Repository Layout
-
-```text
-core/                 C++ runtime contracts and pipeline orchestration
-runtimes/mock/        Deterministic local ASR/translation adapters
-runtimes/onnx/        ONNX adapter boundary for local inference
-bindings/python/      Python SDK mirror and CLI helper
-bindings/native/      C ABI bridge
-bindings/android-jni/ Android JNI session boundary
-apps/cli/             Native CLI acceptance demo
-apps/examples/        Example usage
-assets/               Model manifests, glossary packs, safety rules, samples
-docs/                 Architecture docs, specs, plans, benchmark notes
-tools/                Model conversion and benchmark helper scripts
-```
-
-## Current Implementation Status
-
-This repository is a public runtime foundation, not the complete private product.
-
-Implemented in the public repo:
-
-- C++20 core contracts and orchestration
-- CMake/CTest build structure
-- `TranslationSession` orchestration
-- local context retrieval
-- glossary, safety-rule, and model-manifest loaders
-- rule-based safety checker
-- simple learning-card extraction
-- deterministic mock ASR and translation adapters
-- optional ONNX Runtime model-loading path
-- Python SDK mirror
-- Python native mode through `moyi_c_api`
-- CLI demo surface
-- CLI benchmark JSON output
-- Android JNI native session boundary
-- sample VN-EN, VN-KR, and VN-CN factory glossary/safety/model packs
-
-Not fully public or not complete yet:
-
-- newest private runtime and product experiments
-- competition and commercial demo materials
-- production tokenizer and tensor I/O for real translation models
-- full realtime microphone streaming
-- full mobile app UI
-- field-test telemetry and pitch/funding materials
-- production QA across all target devices
-
-## Build And Test
-
-The project uses CMake.
+MoYi uses CMake presets:
 
 ```powershell
 cmake --preset default
@@ -199,106 +333,126 @@ cmake --build --preset default
 ctest --test-dir build/default --output-on-failure
 ```
 
-The native CLI target is named:
+The native CLI target is named `moyi`.
 
-```text
-moyi
-```
+### Native CLI
 
-Example text demo:
+Text demo:
 
 ```powershell
-moyi --text "Dung may lai, kiem tra cam bien an toan." --pair vi-en
+build/default/moyi.exe `
+  --text "Dung may lai, kiem tra cam bien an toan." `
+  --pair vi-en
 ```
 
 Asset-driven demo:
 
 ```powershell
-moyi --text "Dung may lai, kiem tra cam bien an toan." `
+build/default/moyi.exe `
+  --text "Dung may lai, kiem tra cam bien an toan." `
   --pair vi-en `
   --glossary assets/glossary/factory_vi_en.json `
   --safety assets/safety/factory_rules_vi_en.json `
   --manifest assets/models/vi-en/manifest.yaml
 ```
 
-Benchmark JSON output:
+Benchmark JSON mode:
 
 ```powershell
-moyi --bench-samples assets/samples/factory_utterances_vi.txt
+build/default/moyi.exe `
+  --bench-samples assets/samples/factory_utterances_vi.txt
 ```
 
-## Python SDK
-
-The Python helper package lives in `bindings/python`.
+### Python SDK
 
 ```powershell
 cd bindings/python
-python -m moyi_edge.cli --text "Dung may lai, kiem tra cam bien an toan."
+python -m moyi_edge.cli `
+  --text "Dung may lai, kiem tra cam bien an toan."
 ```
 
-Native C++ runtime through the C ABI bridge:
+Use the shared native C++ runtime through the C ABI bridge:
 
 ```powershell
-python -m moyi_edge.cli --native --text "Dung may lai, kiem tra cam bien an toan."
+python -m moyi_edge.cli `
+  --native `
+  --text "Dung may lai, kiem tra cam bien an toan."
 ```
 
-If the native library is not discovered under `build/**`, set `MOYI_C_API_LIBRARY`.
+If the native library is not discovered under `build/**`, set `MOYI_C_API_LIBRARY` to the compiled library path.
 
-Python output follows the same result contract as the C++ runtime:
+### Result Contract
+
+Native and Python paths expose the same core result fields:
 
 - `session_id`
 - `language_pair`
 - `source_text`
 - `translated_text`
-- confidence scores
+- confidence values
 - safety decision
 - context used
-- learning cards
+- extracted learning cards
 
-## Safety-First Translation
-
-The public MVP safety layer uses deterministic local rules. A phrase such as:
+## 8. Repository Layout
 
 ```text
-Dung may lai, kiem tra cam bien an toan.
+core/                 C++ runtime contracts and orchestration
+runtimes/mock/        Deterministic ASR/translation development adapters
+runtimes/onnx/        ONNX Runtime adapter boundary
+bindings/native/      C ABI bridge
+bindings/python/      Python SDK and native bridge
+bindings/android-jni/ Android JNI session boundary
+apps/cli/             Native CLI and benchmark surface
+apps/examples/        Integration examples
+assets/               Logo, manifests, glossary packs, safety packs, samples
+docs/                 Architecture, roadmap, and benchmark contracts
+tools/                Conversion and benchmark helpers
 ```
 
-can be flagged as a critical safety command and marked as requiring confirmation before output is trusted.
+### Data and Asset Model
 
-The product direction is to keep safety checks local and composable, so later classifier-based safety checks can be added without changing the public session contract.
+<div align="center">
+  <img src="docs/images/moyi-data-model.png" width="92%" alt="MoYi data and asset model">
+</div>
 
-## Business And Impact Framing
+Operational knowledge remains external to the core where possible:
 
-MoYi is not intended to compete only as a generic translator. The value is in operational context:
+- model manifests describe language pairs and runtime expectations;
+- glossary packs define company and domain terminology;
+- safety packs define critical phrases and confirmation behavior;
+- sample utterances support deterministic tests and benchmarks;
+- learning cards can be extracted from translated operational conversations.
 
-- fewer missed instructions in multilingual work
-- lower communication friction for Vietnamese workers and foreign managers
-- safer handling of critical commands
-- reusable company vocabulary and training memory
-- lower dependency on always-online cloud translation in privacy-sensitive settings
-- measurable latency, glossary accuracy, safety recall, and learning-card quality
+## 9. Roadmap
 
-The project is being positioned toward practical trials, pitching, and funding conversations, while keeping sensitive or competition-bound implementation details private.
+1. **Verified native foundation** — keep clean-machine build, tests, and deterministic CLI behavior stable.
+2. **Asset-driven runtime** — maintain shared glossary, safety, and manifest contracts across interfaces.
+3. **Measured runtime quality** — publish reproducible latency and memory reports.
+4. **Real local model path** — complete tokenizer and tensor I/O for one Vietnamese-English model.
+5. **Native Python integration** — keep Python on the shared C++ core.
+6. **Android runtime** — execute the same translation session through JNI.
+7. **Streaming audio** — add chunk queues, session states, and partial/final events.
+8. **Language expansion** — validate `vi-en` first, then promote `vi-zh` and `vi-ko` with evidence.
+9. **Physical edge validation** — report exact device, runtime, model, latency, RAM, thermal, and stability results.
 
-## Roadmap
+Detailed planning:
 
-Near-term engineering path:
+- [`docs/NEXT_PHASE_BRIEF.md`](docs/NEXT_PHASE_BRIEF.md)
+- [`docs/TECHNICAL_ROADMAP.md`](docs/TECHNICAL_ROADMAP.md)
+- [`docs/architecture/`](docs/architecture/)
 
-1. Harden deterministic build/test/benchmark flow.
-2. Wire real ONNX Runtime inference for one VN-EN model path.
-3. Add tokenizer and tensor I/O for ONNX translation and ASR models.
-4. Add local ASR model support for Vietnamese.
-5. Add streaming microphone input and partial events.
-6. Expand mobile runtime integration through the JNI boundary.
-7. Evaluate ONNX Runtime Mobile, TFLite, ExecuTorch, llama.cpp, QNN/NNAPI, and OpenVINO paths.
-8. Prepare field-test metrics for latency, memory, glossary accuracy, safety recall, and user workflow impact.
+## 10. License
 
-Detailed planning docs:
+A project license has not been selected yet.
 
-- `docs/NEXT_PHASE_BRIEF.md`
-- `docs/TECHNICAL_ROADMAP.md`
-- `docs/superpowers/plans/2026-06-24-next-foundation-hardening.md`
+Until a license is added, the source remains publicly visible for review, but reuse and redistribution rights are not granted automatically.
 
-## License
+## 11. Contact
 
-No license has been selected yet.
+- 🐙 **GitHub:** [kyoo-147/MoYi-T2.5](https://github.com/kyoo-147/MoYi-T2.5)
+- 🐛 **Issues:** [Open an issue](https://github.com/kyoo-147/MoYi-T2.5/issues)
+- 🌐 **Homepage:** —
+- 🤗 **Model Hub:** —
+- 📧 **Email:** —
+- 💬 **Community:** —
